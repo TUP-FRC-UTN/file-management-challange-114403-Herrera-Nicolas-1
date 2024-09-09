@@ -1,1 +1,8 @@
-add code here!!
+<div class="container">
+  @if (isFormOpen) {
+  <app-form (openForm)="isFormOpen = $event"></app-form>
+
+  }@else {
+  <app-listado (openForm)="isFormOpen = $event"></app-listado>
+  }
+</div>

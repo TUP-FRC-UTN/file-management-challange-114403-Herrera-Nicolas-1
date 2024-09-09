@@ -1,0 +1,78 @@
+<div class="container">
+  <div class="row">
+    <div class="col"><h1>Archivos</h1></div>
+    <div class="col">
+      <div class="dropdown">
+        <button
+          class="btn btn-primary dropdown-toggle"
+          type="button"
+          data-bs-toggle="dropdown"
+          aria-expanded="false"
+        >
+          Acciones
+        </button>
+        <ul class="dropdown-menu">
+          <li><a class="dropdown-item" href="#" (click)="openForm.emit(true)">Nuevo</a></li>
+          <li>
+            <a class="dropdown-item" href="#" (click)="deleteFiles()">Borrar</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Nombre</th>
+      <th scope="col">Fecha</th>
+      <th scope="col">Dueños</th>
+    </tr>
+  </thead>
+  <tbody>
+    @for (file of fileList; track $index) {
+    <tr>
+      <th scope="row">
+        <input
+          type="checkbox"
+          (change)="selectFile(file, $event)"
+          [value]="file.id"
+        />
+      </th>
+      <td>
+        <div
+          style="width: min-content; min-width: 70px; cursor: default"
+          data-bs-toggle="tooltip"
+          data-bs-placement="top"
+          title="{{ file.name }}"
+        >
+        <span *ngIf="file.type === FileType.FOLDER">📁</span>
+        <span *ngIf="file.type === FileType.FILE">📄</span>
+          {{ file.name | truncate : 10 }}
+        </div>
+      </td>
+      <td>{{ file.creation | date }}</td>
+      <td>
+        <div class="d-flex">
+          @for (owner of file.owners; track $index) { @if ($index < 3) {
+          <img
+            class="img rounded-circle img-fluid"
+            style="width: 40px"
+            src="{{ owner.avatarUrl }}"
+            alt=""
+          />
+          }@else if($index==3){
+          <div
+            class="bg-secondary rounded-circle d-flex justify-content-center align-items-center text-white"
+            style="width: 40px; height: 40px"
+          >
+            {{ file.owners.length - 3 }}
+          </div>
+          } }
+        </div>
+      </td>
+    </tr>
+    }
+  </tbody>
+</table>

@@ -1,0 +1,124 @@
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <form #form="ngForm" (ngSubmit)="onSubmit(form)">
+        <div class="mb-3">
+          <label class="form-label">Nombre</label>
+          <input
+            type="text"
+            class="form-control"
+            name="name"
+            required
+            ngModel
+            #name="ngModel"
+            [ngClass]="{
+              'is-valid': name.valid && (name.dirty || name.touched),
+              'is-invalid': name.invalid && (name.dirty || name.touched)
+            }"
+          />
+        </div>
+        <div class="mb-3">
+          <label class="form-label">fecha</label>
+          <input
+            type="date"
+            class="form-control"
+            id="date"
+            name="date"
+            required
+            ngModel
+            #date="ngModel"
+            [ngClass]="{
+              'is-valid': date.valid && (date.dirty || date.touched),
+              'is-invalid': date.invalid && (date.dirty || date.touched)
+            }"
+          />
+        </div>
+        <div class="mb-3">
+          <label class="form-label">tipo de archivo</label>
+          <select
+            name="type"
+            class="form-select"
+            id="type"
+            required
+            ngModel
+            #type="ngModel"
+            [ngClass]="{
+              'is-valid': type.valid && (type.dirty || type.touched),
+              'is-invalid': type.invalid && (type.dirty || type.touched)
+            }"
+          >
+            @for (type of fileTypes; track $index) {
+            <option [ngValue]="type">{{ type }}</option>
+            }
+          </select>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Carpeta</label>
+          <select
+            class="form-select"
+            id="folder"
+            name="folder"
+            
+            ngModel
+            #folder="ngModel"
+            [ngClass]="{
+              'is-valid': folder.valid && (folder.dirty || folder.touched),
+              'is-invalid': folder.invalid && (folder.dirty || folder.touched)
+            }"
+          >
+            @for (folder of folderList; track $index) {
+            <option [ngValue]="folder.id">{{ folder.name }}</option>
+            }
+          </select>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Dueños</label>
+          <div class="row">
+            <div class="col">
+              <select
+                name="owner"
+                class="form-select"
+                id="owner"
+                [(ngModel)]="selectedOwner"
+                
+              >
+                @for (owner of Owners; track $index) {
+                <option [ngValue]="owner">{{ owner.name }}</option>
+                }
+              </select>
+              <div class="row d-flex mt-2">
+                <div class="col">
+                  @for (item of selectedOwners; track $index) {
+                  <div class="image-wrapper">
+                    <img
+                      src="{{ item.avatarUrl }}"
+                      alt=""
+                      class="img img-fluid rounded-circle ownerImage"
+                      style="width: 50px"
+                      (click)="removeOwner(item)"
+                    />
+                    <span class="remove-text" (click)="removeOwner(item)"
+                      >❌</span
+                    >
+                  </div>
+                  }
+                </div>
+              </div>
+            </div>
+            <div class="col-auto">
+              <button
+                type="button"
+                class="btn btn-primary"
+                (click)="addOwner()"
+              >
+                +
+              </button>
+            </div>
+          </div>
+        </div>
+        <button type="button" class="btn btn-secondary" (click)="openForm.emit(false)">Cancelar</button>
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </form>
+    </div>
+  </div>
+</div>
